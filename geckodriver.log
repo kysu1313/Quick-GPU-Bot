@@ -1,0 +1,211 @@
+1607185145878	geckodriver	INFO	Listening on 127.0.0.1:52290
+1607185145983	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileURkp3N"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607185150560	Marionette	INFO	Listening on port 52295
+1607185150610	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: resource://gre/actors/AutoCompleteChild.jsm, line 235: Error: Invalid autocomplete selectedIndex
+1607185152109	Marionette	INFO	Stopped listening on port 52295
+1607186568742	geckodriver	INFO	Listening on 127.0.0.1:55867
+1607186568764	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileKHhZms"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607186571046	Marionette	INFO	Listening on port 55872
+1607186571127	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607186656857	geckodriver	INFO	Listening on 127.0.0.1:56412
+1607186656913	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileYRkGwc"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607186659136	Marionette	INFO	Listening on port 56417
+1607186659178	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 26: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 93: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607188151660	geckodriver	INFO	Listening on 127.0.0.1:62724
+1607188151765	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileFRM1RK"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607188154141	Marionette	INFO	Listening on port 62729
+1607188154247	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607188157120	Marionette	INFO	Stopped listening on port 62729
+1607188467117	geckodriver	INFO	Listening on 127.0.0.1:64109
+1607188467176	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofilejAuM6A"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607188469566	Marionette	INFO	Listening on port 64114
+1607188469664	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 93: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 26: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607188930444	geckodriver	INFO	Listening on 127.0.0.1:49822
+1607188930540	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofile2hDED8"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607188932908	Marionette	INFO	Listening on port 49827
+1607188932957	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607188937037	Marionette	INFO	Stopped listening on port 49827
+1607189225397	geckodriver	INFO	Listening on 127.0.0.1:51142
+1607189225416	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileVTpPu1"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607189227624	Marionette	INFO	Listening on port 51147
+1607189227674	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607189276713	geckodriver	INFO	Listening on 127.0.0.1:51528
+1607189276729	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileod3Hlz"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607189279094	Marionette	INFO	Listening on port 51533
+1607189279202	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607189353187	geckodriver	INFO	Listening on 127.0.0.1:51995
+1607189353213	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofilen1Cqhm"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607189355484	Marionette	INFO	Listening on port 52000
+1607189355504	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607189376465	geckodriver	INFO	Listening on 127.0.0.1:52278
+1607189376528	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofiletPx0Bj"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607189379123	Marionette	INFO	Listening on port 52283
+1607189379227	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607189948753	geckodriver	INFO	Listening on 127.0.0.1:54977
+1607189948846	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileVzyBMK"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607189951349	Marionette	INFO	Listening on port 54982
+1607189951411	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607190221703	geckodriver	INFO	Listening on 127.0.0.1:56308
+1607190221781	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileggLa1W"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607190224437	Marionette	INFO	Listening on port 56313
+1607190224465	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607190350920	geckodriver	INFO	Listening on 127.0.0.1:57016
+1607190350940	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileks0t21"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607190353193	Marionette	INFO	Listening on port 57021
+1607190353213	Marionette	WARN	TLS certificate errors will be ignored for this session
+1607190359036	Marionette	INFO	Stopped listening on port 57021
+1607190751965	geckodriver	INFO	Listening on 127.0.0.1:58837
+1607190752028	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofilexcSs9h"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607190754246	Marionette	INFO	Listening on port 58842
+1607190754319	Marionette	WARN	TLS certificate errors will be ignored for this session
+
+###!!! [Parent][RunMessage] Error: Channel error: cannot send/recv
+
+1607191043223	geckodriver	INFO	Listening on 127.0.0.1:60115
+1607191043259	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofile83qr4D"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607191045604	Marionette	INFO	Listening on port 60120
+1607191045665	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607191530282	geckodriver	INFO	Listening on 127.0.0.1:62319
+1607191530341	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofile08Gvq7"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607191532760	Marionette	INFO	Listening on port 62324
+1607191532840	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 26: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 93: SyntaxError: JSON.parse: unexpected character at line 2 column 1 of the JSON data
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+SourceActor threw an exception: [Exception... "Failed to open input source 'javascript:false'"  nsresult: "0x80040111 (NS_ERROR_NOT_AVAILABLE)"  location: "JS frame :: resource://devtools/shared/DevToolsUtils.js :: mainThreadFetch/< :: line 661"  data: yes]
+Stack: mainThreadFetch/<@resource://devtools/shared/DevToolsUtils.js:661:15
+mainThreadFetch@resource://devtools/shared/DevToolsUtils.js:509:10
+_fetchURLContents@resource://devtools/server/actors/utils/TabSources.js:440:22
+urlContents@resource://devtools/server/actors/utils/TabSources.js:407:17
+_resurrectSource@resource://devtools/server/actors/thread.js:2105:69
+addAllSources@resource://devtools/server/actors/thread.js:1500:14
+onSources@resource://devtools/server/actors/thread.js:1506:10
+onPacket@resource://devtools/server/devtools-server-connection.js:379:58
+receiveMessage@resource://devtools/shared/transport/child-transport.js:66:16
+Line: 661, column: 0
+console.error: ({})
+JavaScript error: resource://devtools/shared/DevToolsUtils.js, line 661: NS_ERROR_NOT_AVAILABLE: Failed to open input source 'javascript:false'
+1607192095537	geckodriver	INFO	Listening on 127.0.0.1:64849
+1607192096645	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileTRbJ3e"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607192098976	Marionette	INFO	Listening on port 64859
+1607192099081	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
+1607192939773	Marionette	INFO	Stopped listening on port 51533
+1607192942365	Marionette	INFO	Stopped listening on port 52283
+Exiting due to channel error.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+Exiting due to channel error.
+1607193007831	Marionette	INFO	Stopped listening on port 55872
+1607193009931	Marionette	INFO	Stopped listening on port 56417
+1607193012047	Marionette	INFO	Stopped listening on port 64114
+1607193014642	Marionette	INFO	Stopped listening on port 51147
+1607193017189	Marionette	INFO	Stopped listening on port 52000
+1607193019998	Marionette	INFO	Stopped listening on port 54982
+1607193023179	Marionette	INFO	Stopped listening on port 56313
+1607193025507	Marionette	INFO	Stopped listening on port 58842
+1607193027792	Marionette	INFO	Stopped listening on port 60120
+1607193030068	Marionette	INFO	Stopped listening on port 64859
+1607193515020	geckodriver	INFO	Listening on 127.0.0.1:54604
+1607193515124	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "--marionette" "-foreground" "-no-remote" "-profile" "/var/folders/cq/qtlg0tw9133g_b9fy5gjgntr0000gn/T/rust_mozprofileutNNq8"
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1607193517189	Marionette	INFO	Listening on port 54613
+1607193517290	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://imk.neweggimages.com/WebResource/Scripts/amber-lib-v11.js line 1 > eval, line 14: TypeError: a.find(...).attr(...) is undefined
