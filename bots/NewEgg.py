@@ -1,20 +1,28 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 import time
 import random
 import re
 from colorama import Fore, Style, init
 import os
 from selenium.common.exceptions import NoSuchElementException
+import requests
+import re
+from bots.messenger import Bot
+import logging as logger
 
 
 class NewEgg():
 
 
-    def __init__(self, url):
+    def __init__(self, url, bot):
 
         init(convert=True)
         self.url = url
+        self.bot = bot
+        # self.text, self.chat = bot.get_last_chat_id_and_text(bot.get_updates())
+        
 
 
     # Pass xpath of popup close button
@@ -25,15 +33,24 @@ class NewEgg():
 
     def output(self, ctype, success, price, details, link):
 
+        site = "Newegg"
         if success == "IN":
             print(Fore.GREEN + success, end =" ") 
-            print(" STOCK!: ${}  | {} | {}\n{}".format(price, ctype, details, link))
+            print(" STOCK!: ${}  | {} | {} | {}\n{}".format(price, ctype, site, details, link))
+            self.bot.send_message(link)
+            # try:
+            #     bot.polling(none_stop=True)
+            #     self.bot.send_message(self.text, self.chat)
+            # except Exception as e:
+            #     logger.error(e)
+            #     time.sleep(15)
+            
         elif success == "EXP":
             print(Fore.YELLOW + success, end =" ") 
-            print(": ${}  | {} | {}".format(price, ctype, details))
+            print(": ${}  | {} | {} | {}".format(price, ctype, site, details))
         elif success == "OUT":
             print(Fore.RED + success, end =" ") 
-            print("OF STOCK: ${}  | {} | {}".format(price, ctype, details))
+            print("OF STOCK: ${}  | {} | {} | {}".format(price, ctype, site, details))
         else:
             print("No data found")
         print(Style.RESET_ALL)
@@ -48,7 +65,6 @@ class NewEgg():
 
     def get_card(self, item, description, ctype):
 
-
         try:
             sold_out = item.find_element_by_class_name("item-promo")
             sold_out = sold_out.text
@@ -58,13 +74,13 @@ class NewEgg():
         is_in_stock = True
         price = item.find_element_by_class_name("price-current")
         link = description.get_attribute("href")
-        if "SOLD OUT" in sold_out or price == '':
+        if "SOLD OUT" in sold_out or price.text == '':
             in_stock = False
             self.output(ctype, "OUT", "xxx", display_desc, link)
         else:
             in_stock = True
-            true_price = float(
-                re.sub(r'[^\d.]+', '', price.text.split('$')[1].strip()))
+            print(price.text)
+            true_price = float(re.sub(r'[^\d.]+', '', price.text.split('$')[1].strip()))
             if ctype == "3080" and true_price < 1100:
                 self.output(ctype, "IN", true_price, display_desc, link)
             elif ctype == "3090" and true_price < 1900:
@@ -72,6 +88,12 @@ class NewEgg():
             else:
                 self.output(ctype, "EXP", true_price, display_desc, link)
 
+    def select_dropdown(self, driver):
+        drop = driver.find_elements_by_class_name("form-select")
+        # print("len: ", len(drop), drop[1].text)
+        drop[1].find_element(By.XPATH, "//*[@value='96']/option[text()='96']").click
+        print(drop[1].find_element(By.XPATH, "//*[@value='96']/option[text()='96']"))
+        # drop[1].find_element_by_text("96").click()
 
     def start(self):
 
@@ -80,9 +102,9 @@ class NewEgg():
         count = 1
         try:
             while True:
+                t0 = time.time()
                 print('\n=======================\Refresh #:{}\n======================='.format(count))
-                # print(driver.title)
-                # assert "3080" or "3090" in driver.title
+                # self.select_dropdown(driver)
                 if ("3080" or "3090" in driver.title):
                     notice = driver.find_elements_by_class_name("item-info")
                     stock = driver.find_elements_by_class_name("item-container")
@@ -97,17 +119,15 @@ class NewEgg():
                         time.sleep(random.uniform(0, 1))
 
                     sleep_interval = 5+random.randrange(0,1)
-                    # print("\n\n\n{}\n\n\n".format(sleep_interval))
-                    # time.sleep(sleep_interval)
                     print()
                 elif driver.find_element_by_class_name("popup-close") != None:
                     driver.find_element_by_class_name("popup-close").click()
-                # sleep_interval = 1+random.randrange(0,1)
-                # print("\n\n\n{}\n\n\n".format(sleep_interval))
-                # time.sleep(sleep_interval)
-
-                # time.sleep(3)
                 count += 1
+                t1 = time.time()
+                diff = t1 - t0
+                print("diff: ", diff)
+                if count % 3 == 0 and diff < 3:
+                    break;
                 driver.refresh()
         except KeyboardInterrupt:
             pass
