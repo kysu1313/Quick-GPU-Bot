@@ -1,34 +1,9 @@
-import telebot 
-from telethon.sync import TelegramClient 
-from telethon.tl.types import InputPeerUser, InputPeerChannel 
-from telethon import TelegramClient, sync, events 
+from twilio.rest import Client
 
-class Bot():
+CLIENT = Client("ACce6e26e6caff712faff02f0ea8bab413", "c09931d89b55c4275650b96848fc1a99")
 
-    def __init__(self):
-        self.API_ID = "1731805"
-        self.API_HASH = "8dad59f0d88fe2523377802cc841edf7"
-        self.API_TOKEN = "1401658145:AAFBQy82afRWa3RlB8zriUT29yO2aUyjPlY"
-        self.client = TelegramClient('session', self.API_ID, self.API_HASH)
+def send_message(to_number, message):
+    CLIENT.messages.create(to=to_number, 
+                       from_="8039747673", 
+                       body="rtx bot reporting for duty: " + message)
 
-    def login(self, number):
-        self.client.connect()
-        if not self.client.is_user_authorized():
-            self.client.send_code_request(number)
-            self.client.sign_in(number, input('Enter the code: '))
-
-    def send_message(self, message):
-        # self.client = TelegramClient('session', self.API_ID, self.API_HASH)
-        # self.client.connect()
-        # if not client.is_user_authorized():
-        #     client.send_code_request(number)
-        #     client.sign_in(number, input('Enter the code: '))
-
-        try:
-            reciever = InputPeerUser('user_id', 'user_hash')
-            self.client.send_message("@kysu3376", reciever, message, parse_mode='html')
-        except Exception as e:
-            print(e)
-
-    def drop_connection(self):
-        self.client.disconnect()

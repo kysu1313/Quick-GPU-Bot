@@ -1,0 +1,10 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: twilio in c:\users\kyle\appdata\roaming\python\python37\site-packages (6.50.0)
+Requirement already satisfied: PyJWT>=1.4.2 in c:\users\kyle\appdata\roaming\python\python37\site-packages (from twilio) (1.7.1)
+Requirement already satisfied: pytz in c:\users\kyle\appdata\roaming\python\python37\site-packages (from twilio) (2020.4)
+Requirement already satisfied: six in c:\users\kyle\appdata\roaming\python\python37\site-packages (from twilio) (1.15.0)
+Requirement already satisfied: requests>=2.0.0; python_version >= "3.0" in c:\users\kyle\appdata\roaming\python\python37\site-packages (from twilio) (2.22.0)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\kyle\appdata\roaming\python\python37\site-packages (from requests>=2.0.0; python_version >= "3.0"->twilio) (2019.6.16)
+Requirement already satisfied: chardet<3.1.0,>=3.0.2 in c:\users\kyle\appdata\roaming\python\python37\site-packages (from requests>=2.0.0; python_version >= "3.0"->twilio) (3.0.4)
+Requirement already satisfied: idna<2.9,>=2.5 in c:\users\kyle\appdata\roaming\python\python37\site-packages (from requests>=2.0.0; python_version >= "3.0"->twilio) (2.8)
+Requirement already satisfied: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in c:\users\kyle\appdata\roaming\python\python37\site-packages (from requests>=2.0.0; python_version >= "3.0"->twilio) (1.25.3)
