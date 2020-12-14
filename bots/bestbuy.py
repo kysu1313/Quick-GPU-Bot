@@ -9,16 +9,21 @@ import os
 from selenium.common.exceptions import NoSuchElementException
 import requests
 import re
+import bots.messenger as msg
+from datetime import datetime
+from time import sleep
+from tqdm import tqdm
 
 
 class BestBuy():
 
 
-    def __init__(self, url, bot):
+    def __init__(self, url, number, mode):
 
         init(convert=True)
         self.url = url
-        self.bot = bot
+        self.mode = mode
+        self.number = number
 
 
     # Pass xpath of popup close button
@@ -33,19 +38,18 @@ class BestBuy():
         if success == "IN":
             print(Fore.GREEN + success, end =" ") 
             print(" STOCK! | ${}  | {} | {} | {}".format(price, ctype, platform, details[0], link))
-            self.bot.send_message(link)
-        elif success == "EXP":
-            print(Fore.YELLOW + success, end =" ") 
-            print(" | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
-        elif success == "OUT":
-            print(Fore.RED + success, end =" ") 
-            print("OF STOCK | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
-
-            self.bot.send_message(link)
-
-        else:
-            print("No data found")
-        print(Style.RESET_ALL)
+            if ctype == "3080":
+                msg.send_message(self.number, link)
+        elif self.mode is '1':
+            if success == "EXP":
+                print(Fore.YELLOW + success, end =" ") 
+                print(" | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
+            elif success == "OUT":
+                print(Fore.RED + success, end =" ") 
+                print("OF STOCK | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
+            else:
+                        print("No data found")
+        Style.RESET_ALL
 
 
     def get_chunks(self, desc):
@@ -82,6 +86,29 @@ class BestBuy():
         except NoSuchElementException:
             print("no block")
 
+    def loop_body(self, item):
+        description = item.text
+        link_item = item.find_element_by_class_name("sku-header")
+        link = item.find_element_by_tag_name("a").get_attribute("href")
+
+        parts = description.split("\n")
+        cart_button = item.find_element_by_class_name("c-reviews-v4 ")
+        nope = False
+        if "Not yet reviewed" in cart_button.text:
+            nope = True
+
+        if "Sold Out" in parts[4] or nope:
+            is_in = False
+        else:
+            is_in = True
+
+        if "3080" in parts[0]:
+            self.get_card(item, description, "3080", is_in, link)
+        elif "3090" in parts[0]:
+            pass
+            # self.get_card(item, description, "3090", is_in, link)
+        time.sleep(random.uniform(0, 1))
+
     def start(self):
 
         driver = webdriver.Firefox()
@@ -89,23 +116,11 @@ class BestBuy():
         count = 1
         try:
             self.check_country_page(driver)
-            #     if "Select your Country" in driver.title:
-            #         driver.find_element_by_class_name("us-link").click()
-            # except NoSuchElementException:
-            #     print("no block")
             while True:
                 t0 = time.time()
-                print('\n=======================\BestBuy Refresh #:{}\n======================='.format(count))
-
-                print(driver.title)
-                # try:
-                #     if driver.find_element_by_id("survey_invite_no"):
-                #         driver.find_element_by_id("survey_invite_no").click()
-                # except NoSuchElementException:
-                #     print("no block")
-                # self.check_popup(driver)
-
-
+                now = datetime.now()
+                dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                print('\n<=======================BestBuy Refresh #:{}, {}=======================>'.format(count, dt_string))
 
                 if "GPUs" in driver.title:
                     notice = driver.find_elements_by_class_name("item-info")
@@ -113,32 +128,18 @@ class BestBuy():
                     stock = total.find_elements_by_class_name("sku-item")
                     is80 = False
                     is90 = False
-                    for item in stock:
-                        description = item.text
-                        link_item = item.find_element_by_class_name("sku-header")
-                        link = item.find_element_by_tag_name("a").get_attribute("href")
 
-                        # print(description.split("\n")[0]) # Description
-                        # print(description.split("\n")[2]) # rating
-                        # print(description.split("\n")[4]) # Sold Out
-                        # print(description.split("\n")[8]) # price
+                    # print(description.split("\n")[0]) # Description
+                    # print(description.split("\n")[2]) # rating
+                    # print(description.split("\n")[4]) # Sold Out
+                    # print(description.split("\n")[8]) # price
 
-                        parts = description.split("\n")
-                        cart_button = item.find_element_by_class_name("c-reviews-v4 ")
-                        nope = False
-                        if "Not yet reviewed" in cart_button.text:
-                            nope = True
-
-                        if "Sold Out" in parts[4] or nope:
-                            is_in = False
-                        else:
-                            is_in = True
-
-                        if "3080" in parts[0]:
-                            self.get_card(item, description, "3080", is_in, link)
-                        elif "3090" in parts[0]:
-                            self.get_card(item, description, "3090", is_in, link)
-                        time.sleep(random.uniform(0, 1))
+                    if self.mode == '2':
+                        for item in tqdm(stock):
+                            self.loop_body(item)
+                    else:
+                        for item in stock:
+                            self.loop_body(item)
 
                     sleep_interval = 5+random.randrange(0,1)
                 
