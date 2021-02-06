@@ -59,12 +59,16 @@ class NewEgg():
 
         Style.RESET_ALL
 
+    # Split objects into chunks for parsing.
+
     def get_chunks(self, desc):
         """ Break down description to extract only the first part. """
 
         chunks, chunk_size = len(desc), len(desc)//4
         pts = [desc[i:i+chunk_size] for i in range(0, chunks, chunk_size)]
         return pts[0]
+
+    # Gets card objects
 
     def get_card(self, item, description, ctype):
         """ Sift through a list item and extrace card data. """
@@ -96,12 +100,17 @@ class NewEgg():
             else:
                 self.output(ctype, "EXP", true_price, display_desc, link)
 
+    # Select dropdown to view all items on same page.
+    # This does not work properly.
+
     def select_dropdown(self, driver):
         drop = driver.find_elements_by_class_name("form-select")
         drop[1].find_element(
             By.XPATH, "//*[@value='96']/option[text()='96']").click
         print(drop[1].find_element(
             By.XPATH, "//*[@value='96']/option[text()='96']"))
+
+    # Checks for GPU name in title element.
 
     def loop_body(self, item):
         description = item.find_element_by_class_name("item-title")
@@ -111,6 +120,8 @@ class NewEgg():
             pass
             # self.get_card(item, description, "3090")
         time.sleep(random.uniform(0, 1))
+
+    # Opens the web browser and begins scanning.
 
     def start(self):
 
