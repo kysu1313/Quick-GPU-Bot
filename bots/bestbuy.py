@@ -17,7 +17,6 @@ from tqdm import tqdm
 
 class BestBuy():
 
-
     def __init__(self, url, number, mode):
 
         init(convert=True)
@@ -25,37 +24,44 @@ class BestBuy():
         self.mode = mode
         self.number = number
 
-
     # Pass xpath of popup close button
+
     def close_popup(self, driver, path):
 
         self.driver.find_element_by_xpath(path).click()
 
+    # Just formatting output so it is easy to read
 
     def output(self, ctype, success, price, details, link):
 
         platform = "BestBuy"
         if success == "IN":
-            print(Fore.GREEN + success, end =" ") 
-            print(" STOCK! | ${}  | {} | {} | {}".format(price, ctype, platform, details[0], link))
+            print(Fore.GREEN + success, end=" ")
+            print(" STOCK! | ${}  | {} | {} | {}".format(
+                price, ctype, platform, details[0], link))
             if ctype == "3080":
                 msg.send_message(self.number, link)
         elif self.mode is '1':
             if success == "EXP":
-                print(Fore.YELLOW + success, end =" ") 
-                print(" | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
+                print(Fore.YELLOW + success, end=" ")
+                print(" | ${}  | {} | {} | {}".format(
+                    price, ctype, platform, details[0]))
             elif success == "OUT":
-                print(Fore.RED + success, end =" ") 
-                print("OF STOCK | ${}  | {} | {} | {}".format(price, ctype, platform, details[0]))
+                print(Fore.RED + success, end=" ")
+                print("OF STOCK | ${}  | {} | {} | {}".format(
+                    price, ctype, platform, details[0]))
             else:
-                        print("No data found")
+                print("No data found")
         Style.RESET_ALL
 
+    # Splitting element text for parsing
 
     def get_chunks(self, desc):
         new_desc = desc.split("\n")[0]
         return new_desc
 
+    # Get all item cards on the page.
+    # These are the rectangles that have the images and descriptions of the GPU's
 
     def get_card(self, item, description, ctype, is_in, link):
 
@@ -64,13 +70,20 @@ class BestBuy():
             self.output(ctype, "OUT", "xxx", description.split("\n"), "link")
         else:
             in_stock = True
-            true_price = float(re.sub(r'[^\d.]+', '', description.split('$')[1].strip()))
+            true_price = float(
+                re.sub(r'[^\d.]+', '', description.split('$')[1].strip()))
             if ctype == "3080" and true_price < 1100:
-                self.output(ctype, "IN", true_price, description.split("\n"), link)
+                self.output(ctype, "IN", true_price,
+                            description.split("\n"), link)
             elif ctype == "3090" and true_price < 1900:
-                self.output(ctype, "IN", true_price, description.split("\n"), link)
+                self.output(ctype, "IN", true_price,
+                            description.split("\n"), link)
             else:
-                self.output(ctype, "EXP", true_price, description.split("\n"), link)
+                self.output(ctype, "EXP", true_price,
+                            description.split("\n"), link)
+
+    # If you use a VPN, you'll get a "What country are you from" page that needs to be closed.
+    # This will close that popup.
 
     def check_country_page(self, driver):
         try:
@@ -78,13 +91,15 @@ class BestBuy():
                 driver.find_element_by_class_name("us-link").click()
         except NoSuchElementException:
             print("no block")
-    
+
     def check_popup(self, driver):
         try:
             if driver.find_element_by_id("survey_invite_no"):
                 driver.find_element_by_id("survey_invite_no").click()
         except NoSuchElementException:
             print("no block")
+
+    # Checks elements in each card object.
 
     def loop_body(self, item):
         description = item.text
@@ -109,6 +124,8 @@ class BestBuy():
             # self.get_card(item, description, "3090", is_in, link)
         time.sleep(random.uniform(0, 1))
 
+    # Main body, loops over each card object and checks the avaliability and price.
+
     def start(self):
 
         driver = webdriver.Firefox()
@@ -120,8 +137,10 @@ class BestBuy():
                 t0 = time.time()
                 now = datetime.now()
                 dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-                print('\n<=======================BestBuy Refresh #:{}, {}=======================>'.format(count, dt_string))
+                print('\n<=======================BestBuy Refresh #:{}, {}=======================>'.format(
+                    count, dt_string))
 
+                # Lots of debugging stuff in here.....
                 if "GPUs" in driver.title:
                     notice = driver.find_elements_by_class_name("item-info")
                     total = driver.find_element_by_id("main-results")
@@ -141,14 +160,16 @@ class BestBuy():
                         for item in stock:
                             self.loop_body(item)
 
-                    sleep_interval = 5+random.randrange(0,1)
-                
+                    # We want to add random pauses between each page refresh.
+                    # This will help reduce bot detection a bit.
+                    sleep_interval = 5+random.randrange(0, 1)
+
                 count += 1
                 t1 = time.time()
                 diff = t1 - t0
                 print("diff: ", diff)
                 if count % 3 == 0 and diff < 3:
-                    break;
+                    break
                 driver.refresh()
         except KeyboardInterrupt:
             pass

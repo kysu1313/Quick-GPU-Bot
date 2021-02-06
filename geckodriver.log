@@ -10298,8 +10298,11 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1609095364497	Marionette	WARN	TLS certificate errors will be ignored for this session
 Can't find symbol 'eglSwapBuffersWithDamageEXT'.
 Can't find symbol 'eglSetDamageRegionKHR'.
-JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
-JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
+1609113428978	Marionette	INFO	Stopped listening on port 1322
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+pting to fetch resource.
 JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
 JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
 JavaScript error: , line 0: TypeError: NetworkError when attempting to fetch resource.
@@ -10384,3 +10387,17 @@ JavaScript error: , line 0: uncaught exception: out of memory
 JavaScript error: , line 0: uncaught exception: out of memory
 JavaScript error: , line 0: uncaught exception: out of memory
 JavaScript error: , line 0: uncaught exception: out of memory
+Marionette threw an error: TypeError: this.curBrowser.messageManager is null
+GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:361:5
+send/<@chrome://marionette/content/proxy.js:190:12
+send@chrome://marionette/content/proxy.js:124:12
+get/<@chrome://marionette/content/proxy.js:37:29
+GeckoDriver.prototype.findElement@chrome://marionette/content/driver.js:2082:28
+
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1609113429137	Marionette	INFO	Stopped listening on port 1323
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
