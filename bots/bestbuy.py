@@ -1,4 +1,4 @@
-from selenium import webdriver
+
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
@@ -9,6 +9,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 import time
+
+from selenium import webdriver
+
 import random
 import re
 from colorama import Fore, Style, init
@@ -48,6 +51,29 @@ DEFAULT_HEADERS = {
     "origin": "https://www.bestbuy.com",
 }
 
+
+BEST_BUY_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
+BEST_BUY_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
+
+BEST_BUY_ADD_TO_CART_API_URL = "https://www.bestbuy.com/cart/api/v1/addToCart"
+BEST_BUY_CHECKOUT_URL = "https://www.bestbuy.com/checkout/c/orders/{order_id}/"
+
+DEFAULT_HEADERS = {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+    "accept-encoding": "gzip, deflate, br",
+    "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
+    "origin": "https://www.bestbuy.com",
+}
+
+options = Options()
+options.page_load_strategy = "eager"
+options.add_experimental_option("excludeSwitches", ["enable-automation"])
+options.add_experimental_option("useAutomationExtension", False)
+prefs = {"profile.managed_default_content_settings.images": 2}
+options.add_experimental_option("prefs", prefs)
+options.add_argument("user-data-dir=.profile-bb")
+options.add_argument("user-data-dir=/home/kms/.config/google-chrome/Defaule")
 
 class BestBuy():
 
@@ -135,6 +161,7 @@ class BestBuy():
             self.is_logged_in = True
             self.driver.get(self.url)
 
+
     def get_chunks(self, desc):
         new_desc = desc.split("\n")[0]
         return new_desc
@@ -165,6 +192,7 @@ class BestBuy():
         try:
             if self.driver.find_element_by_id("survey_invite_no"):
                 self.driver.find_element_by_id("survey_invite_no").click()
+
         except NoSuchElementException:
             print("No popup")
 
@@ -174,6 +202,7 @@ class BestBuy():
             if self.driver.find_element_by_xpath("//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button"):
                 self.driver.find_element_by_xpath(
                     "//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button").click()
+
         except NoSuchElementException:
             print("no popup")
 
@@ -186,6 +215,7 @@ class BestBuy():
         if not is_in or "Sold Out" in description.split("\n"):
             in_stock = False
             self.printer.output(ctype, "OUT", "xxx", description, "", self.stream_mode, "BestBuy")
+
         else:
             in_stock = True
             print_desc = description[:20]
@@ -305,3 +335,16 @@ class BestBuy():
         except KeyboardInterrupt:
             self.driver.quit()
             pass
+
+
+# line 413, in find_elements_by_class_name
+#     return self.find_elements(by=By.CLASS_NAME, value=name)
+#   File "C:\Users\Kyle\AppData\Roaming\Python\Python37\site-packages\selenium\webdriver\remote\webelement.py", line 685, in find_elements
+#     {"using": by, "value": value})['value']
+#   File "C:\Users\Kyle\AppData\Roaming\Python\Python37\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+#     return self._parent.execute(command, params)
+#   File "C:\Users\Kyle\AppData\Roaming\Python\Python37\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+#     self.error_handler.check_response(response)
+#   File "C:\Users\Kyle\AppData\Roaming\Python\Python37\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+#     raise exception_class(message, screen, stacktrace)
+# selenium.common.exceptions.WebDriverException: Message: out of memory
