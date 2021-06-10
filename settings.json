@@ -1,0 +1,110 @@
+{
+  // NOTE: Fields are case sensitive
+
+  "settings": {
+    // Browser selection and path (if requied)
+    "use_firefox": "True",
+    // If you want to use your browser profile, add the folder path here, otherwise leave it empty
+    "custom_firefox_exe_path": "",
+    "use_chrome": "False",
+    "custom_chrome_exe_path": "",
+
+    // Show console output for every item checked, or only when in stock item is found
+    "stream_mode": "True",
+    "instock_only_mode": "False",
+
+    // *** Send Text Message On Hit ***
+    "send_messages": "True",
+
+    // Progress bar only used with 'instock_only_mode'
+    "show_progress_bar": "False",
+    "show_refresh_time": "False",
+
+    // Purchase one item or many GPU's
+    // If 'True' script keeps running after purchase
+    "purchase_multiple_items": "False",
+
+    // Browser settings
+    "load_images": "False",
+    "headless_mode": "False",
+    "save_logs": "True",
+    "use_custom_urls": "False",
+    "custom_urls": "None",
+
+    // Item(s) to search for
+    "cards_to_find": {
+      "3060 Ti": "True",
+      "3080 Ti": "True",
+      "3060": "True",
+      "3070": "True",
+      "3080": "True",
+      "3090": "True"
+    },
+
+    // Highest price you want to pay for items
+    "card_prices": {
+      "3060 Ti": 750,
+      "3080 Ti": 1600,
+      "3060": 600,
+      "3070": 800,
+      "3080": 1200,
+      "3090": 2500
+    },
+
+    // Login on start (Faster)
+    // Note: Login at start is required for Newegg
+    "login_at_start": "True",
+
+    // Checking out as a guest is slower.
+    // It's recommended to have your info pre-filled in your account and login at checkout
+    "checkout_as_guest": "False",
+
+    // BestBuy login / buy info
+    "bb_info": {
+      "bb_auto_login": "True",
+      "bb_auto_buy": "True",
+      "bb_username": "bb un here",
+      "bb_email": "bb email here",
+      "bb_password": "bb password here"
+    },
+
+    // Newegg login / buy info
+    "ne_info": {
+      "ne_auto_login": "True",
+      "ne_auto_buy": "True",
+      "ne_username": "ne un here",
+      "ne_email": "ne email here",
+      "ne_password": "ne password here"
+    },
+
+    // Amazon login / buy info
+    "az_info": {
+      "az_auto_login": "False",
+      "az_auto_buy": "False",
+      "az_username": "az un here",
+      "az_email": "az email here",
+      "az_password": "az password here"
+    },
+
+    // Shipping info for use on all sites
+    "shipping_info": {
+      "first_name": "fname",
+      "last_name": "lname",
+      "address": "address here",
+      "apartment": "",
+      "zip_code": "zip here",
+      "city": "city here",
+      "state": "state here",
+      "phone_number": "phone number here"
+    },
+
+    // Credit Card info
+    // Only needed if auto-buy is enabled
+    "payment_info": {
+      "card_number": "cc number here",
+      "expiration_month": "month",
+      "expiration_year": "year",
+      "security_code": 123
+    }
+  }
+}
