@@ -2,35 +2,74 @@
   // NOTE: Fields are case sensitive
 
   "settings": {
+    // ========== DEBUG MODE ==============//
+    // Use this if you need to tweak anything to prevent accidental purchases,
+    // Learn from my mistakes...😆
+    "DEBUG_MODE": "False",
+    "debug": {
+      "login_enabled": "True",
+
+      // Set to 'False' if you want to test entering payment info
+      // but don't want to make any purchases
+      "purchase_enabled": "False",
+
+      // Set to 'False' if you want to test the bot
+      // without adding items to cart
+      "test_payment_no_purchase": "True",
+      "send_messages": "True"
+    },
+
+    // ========== BROWSER CONTROL ============= //
+
     // Browser selection and path (if requied)
-    "use_firefox": "True",
+    "use_firefox": "False",
+    "use_firefox_profile": "True",
+    // Replace '<your-username-here>' with your username
+    "custom_firefox_exe_path": "C:\\Users\\<your-username-here>\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\al32vdl0.default-release",
     // If you want to use your browser profile, add the folder path here, otherwise leave it empty
-    "custom_firefox_exe_path": "",
-    "use_chrome": "False",
-    "custom_chrome_exe_path": "",
+    "use_chrome": "True",
+    "use_chrome_profile": "False",
+    // Replace '<your-username-here>' with your username
+    "chrome_profile_path": "C:\\Users\\<your-username-here>\\AppData\\Local\\Google\\Chrome\\User Data\\",
+    "custom_chrome_exe_path": "<your-chrome-driver-path-here>",
+    // Loading images is slow
+    "load_images": "False",
+
+    // Loading a webpage is also slow. You can disable it here.
+    // When using headless mode, if you have to enter a 2FA code for Newegg, a small popupbox will appear.
+    // You type/paste the code in and press submit.
+    "headless_mode": "False",
+
+    // WARNING: Logging is a little messed up. Occasionally it will produce massive files. (Fixes are on the way)
+    "save_logs": "True",
+    "use_custom_urls": "False",
+    "custom_urls": "None",
+    // Maximum time to wait for html element to appear
+    "max_timeout": 10,
+
+    // ============= VISUAL SETTINGS ============= //
 
     // Show console output for every item checked, or only when in stock item is found
     "stream_mode": "True",
     "instock_only_mode": "False",
+    // Progress bar only used with 'instock_only_mode' = 'True'
+    "show_progress_bar": "False",
+    "show_price_line": "False",
+    "show_refresh_time": "True",
+
+    // ============ MESSAGE SETTINGS ============ //
 
     // *** Send Text Message On Hit ***
-    "send_messages": "True",
+    "send_messages": "False",
 
-    // Progress bar only used with 'instock_only_mode'
-    "show_progress_bar": "False",
-    "show_refresh_time": "False",
+    // =========== PRODUCT SETTINGS =========== //
 
     // Purchase one item or many GPU's
     // If 'True' script keeps running after purchase
     "purchase_multiple_items": "False",
 
-    // Browser settings
-    "load_images": "False",
-    "headless_mode": "False",
-    "save_logs": "True",
-    "use_custom_urls": "False",
-    "custom_urls": "None",
-
+    // The keys in 'cards_to_find' and 'card_prices' must be the same.
+    // So if you add something to the list to find, you must also add it to the price list.
     // Item(s) to search for
     "cards_to_find": {
       "3060 Ti": "True",
@@ -39,6 +78,8 @@
       "3070": "True",
       "3080": "True",
       "3090": "True"
+      //"710": "True",
+      //"RX 560": "True"
     },
 
     // Highest price you want to pay for items
@@ -49,11 +90,15 @@
       "3070": 800,
       "3080": 1200,
       "3090": 2500
+      //"710": 200,
+      //"RX 560": 500
     },
+
+    // =========== ACCOUNT SETTINGS =========== //
 
     // Login on start (Faster)
     // Note: Login at start is required for Newegg
-    "login_at_start": "True",
+    "login_at_start": "False",
 
     // Checking out as a guest is slower.
     // It's recommended to have your info pre-filled in your account and login at checkout
@@ -62,49 +107,50 @@
     // BestBuy login / buy info
     "bb_info": {
       "bb_auto_login": "True",
-      "bb_auto_buy": "True",
-      "bb_username": "bb un here",
-      "bb_email": "bb email here",
-      "bb_password": "bb password here"
+      "bb_auto_buy": "False",
+      "bb_username": "yourInfoHere",
+      "bb_email": "yourInfoHere",
+      "bb_password": "yourInfoHere"
     },
 
     // Newegg login / buy info
     "ne_info": {
       "ne_auto_login": "True",
-      "ne_auto_buy": "True",
-      "ne_username": "ne un here",
-      "ne_email": "ne email here",
-      "ne_password": "ne password here"
+      "ne_auto_buy": "False",
+      "ne_username": "yourInfoHere",
+      "ne_email": "yourInfoHere",
+      "ne_password": "yourInfoHere"
     },
 
     // Amazon login / buy info
     "az_info": {
       "az_auto_login": "False",
       "az_auto_buy": "False",
-      "az_username": "az un here",
-      "az_email": "az email here",
-      "az_password": "az password here"
+      "az_username": "yourInfoHere",
+      "az_email": "yourInfoHere",
+      "az_password": "yourInfoHere"
     },
 
     // Shipping info for use on all sites
+    // Required for 'auto_buy'
     "shipping_info": {
-      "first_name": "fname",
-      "last_name": "lname",
-      "address": "address here",
+      "first_name": "",
+      "last_name": "",
+      "address": "",
       "apartment": "",
-      "zip_code": "zip here",
-      "city": "city here",
-      "state": "state here",
-      "phone_number": "phone number here"
+      "zip_code": "",
+      "city": "",
+      "state": "",
+      "phone_number": ""
     },
 
     // Credit Card info
     // Only needed if auto-buy is enabled
     "payment_info": {
-      "card_number": "cc number here",
-      "expiration_month": "month",
-      "expiration_year": "year",
-      "security_code": 123
+      "card_number": "555555555",
+      "expiration_month": "02",
+      "expiration_year": "2022",
+      "security_code": 555
     }
   }
 }

@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support import expected_conditions as EC
 
 class Browser():
     def __init__(self, settings):
@@ -20,20 +21,35 @@ class Browser():
     def str2bool(self, str):
         return str.lower() == 'true'
 
+    def driver_wait(self, id_type, text, max_wait=4):
+        WebDriverWait(self.driver, max_wait).until(
+            EC.presence_of_element_located((id_type, text))
+        )
+
     def get_driver(self):
         if self.use_custom_urls:
             self.url = self.custom_urls
-        if self.settings.browser == 'chrome':
+        if self.settings.use_chrome:
             options = Options()
-            options.binary_location(executable_path=self.settings.custom_chrome_exe_path)
+            #options.binary_location(executable_path=self.settings.custom_chrome_exe_path)
+            options.add_argument('--disable-dev-shm-usage')
+            #options.binary_location = self.settings.custom_chrome_exe_path
             options.page_load_strategy = "eager"
             options.add_experimental_option("excludeSwitches", ["enable-automation"])
             options.add_experimental_option("useAutomationExtension", False)
+            #options.add_argument("--no-sandbox");
             if not self.load_images:
                 prefs = {"profile.managed_default_content_settings.images": 2}
                 options.add_experimental_option("prefs", prefs)
-                options.add_argument("user-data-dir=.profile-bb")
-            driver = webdriver.Chrome(options=options)
+            if self.headless_mode:
+                options.add_argument('--headless')
+            if self.settings.use_chrome_profile:
+                options.add_argument("--user-data-dir={}".format(self.settings.chrome_profile_path)) # .profile-bb
+                options.add_argument('--profile-directory=Default')
+            if self.settings.custom_chrome_exe_path != "" or None:
+                driver = webdriver.Chrome(self.settings.custom_chrome_exe_path, options=options)
+            else:
+                driver = webdriver.Chrome(options=options)
         else:
             fireFoxOptions = webdriver.FirefoxOptions()
             firefox_profile = webdriver.FirefoxProfile(self.settings.custom_firefox_exe_path)

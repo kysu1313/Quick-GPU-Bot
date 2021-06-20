@@ -4,8 +4,8 @@ from colorama import Fore, Style, init
 class Printer():
 
     def __init__(self):
-                self.old_prices = {}
-                self.avg_prices = {}
+        self.old_prices = {}
+        self.avg_prices = {}
 
     def output(self, ctype, success, price, details, link, stream_mode, platform):
         if success == "IN":
@@ -20,6 +20,9 @@ class Printer():
             else:
                 print("No data found")
         Style.RESET_ALL
+
+    def print_message(self, color, message):
+        print(color, message)
 
     def pretty_print(self, color, success, price, ctype, platform, detail, link):
         print(color + success, end=" ")

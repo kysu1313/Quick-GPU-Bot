@@ -43,6 +43,8 @@ AMAZON_URLS = {
     "ATC_URL": "https://{domain}/gp/aws/cart/add.html",
 }
 
+MAX_TIMEOUT = 10
+
 class Amazon():
 
     def __init__(self, number, url, settings):
@@ -53,10 +55,14 @@ class Amazon():
         fhandler = logging.FileHandler(filename='.\\amazonLog.log', mode='a')
         self.logger.addHandler(fhandler)
         self.logger.setLevel(logging.INFO)
-        self.session = requests.Session()
+        #self.session = requests.Session()
         self.is_logged_in = False
         self.printer = Printer()
         self.az_base = "smile.amazon.com"
+        if settings is not None:
+            self.MAX_TIMEOUT = self.settings.max_timeout
+        else:
+            self.MAX_TIMEOUT = MAX_TIMEOUT
 
         # General settings
         self.settings = settings
@@ -73,6 +79,17 @@ class Amazon():
         # Login time
         self.login_at_start = settings.login_at_start
 
+        # NewEgg settings
+        self.az_info = settings.az_info
+
+        self.number = number
+        self.sku_id = sku_id = None
+
+        # Browser driver
+        self.browser = Browser(settings)
+        self.driver = self.browser.driver
+        self.driver.get(url)
+
         # Statistics
         self.avg_prices = self.total_prices = self.card_count = self.old_prices = {
             "3060" : 0,
@@ -83,32 +100,23 @@ class Amazon():
             "3090" : 0
         }
         
-        # NewEgg settings
-        self.az_info = settings.az_info
 
-        self.number = number
-        self.sku_id = sku_id = None
 
-        adapter = HTTPAdapter(
-            max_retries=Retry(
-                total=3,
-                backoff_factor=1,
-                status_forcelist=[429, 500, 502, 503, 504],
-                method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
-            )
-        )
-        self.session.mount("https://", adapter)
-        self.session.mount("http://", adapter)
-        self.session.get(self.url)
+        #adapter = HTTPAdapter(
+        #    max_retries=Retry(
+        #        total=3,
+        #        backoff_factor=1,
+        #        status_forcelist=[429, 500, 502, 503, 504],
+        #        method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
+        #    )
+        #)
+        #self.session.mount("https://", adapter)
+        #self.session.mount("http://", adapter)
+        #self.session.get(self.url)
 
         #response = self.session.get(
             #NEWEGG_PDP_URL.format(sku=self.sku_id), headers=DEFAULT_HEADERS
         #)
-
-        # Browser driver
-        self.browser = Browser(settings)
-        self.driver = self.browser.driver
-        self.driver.get(url)
 
     def close_popup(self, path):
         """ Close popup window """
@@ -121,6 +129,26 @@ class Amazon():
         chunks, chunk_size = len(desc), len(desc)//4
         pts = [desc[i:i+chunk_size] for i in range(0, chunks, chunk_size)]
         return pts[0]
+    
+    def get_timeout(self, timeout=MAX_TIMEOUT):
+        return time.time() + timeout
+
+    def login(self):
+        timeout = self.get_timeout()
+        while True:
+            try:
+                email_field = self.driver.find_element_by_xpath('//*[@id="ap_email"]')
+                break
+            except NoSuchElementException:
+                try:
+                    password_field = self.driver.find_element_by_xpath(
+                        '//*[@id="ap_password"]'
+                    )
+                    break
+                except NoSuchElementException:
+                    pass
+            if time.time() > timeout:
+                break
 
     def get_card(self, item, description, ctype, is_in, link, display_desc, true_price):
         """ Sift through a list item and extrace card data. """
@@ -159,8 +187,11 @@ class Amazon():
     def loop_body(self, item):
         if item.text == '':
             return
-        description = item.find_element_by_class_name("item-title")
-
+        description = item.find_element_by_class_name("""//*[@id="search"]/div[1]/div/div[1]/div/span[3]/div[2]/div[6]/div/span/div/div/div[2]/div[2]/div/div[1]/h2/a/span""")
+        offer_xpath = (
+                    "//div[@id='aod-offer' and .//input[@name='submit.addToCart']] | "
+                    "//div[@id='aod-pinned-offer' and .//input[@name='submit.addToCart']]"
+                )
         # Get sold out tag if it exists
         try:
             sold_out = item.find_element_by_class_name("item-promo")
@@ -199,8 +230,27 @@ class Amazon():
         if "" in self.driver.title:
             #notice = self.driver.find_elements_by_class_name(
             #    "item-info")
-            stock = self.driver.find_elements_by_class_name(
-                "rush-component s-latency-cf-section")
+            #stock = self.driver.find_elements_by_class_name(  # s-result-item
+            #    "rush-component s-latency-cf-section")
+
+            stock = self.driver.find_elements_by_class_name(  # s-result-item
+                "s-result-item")
+
+            #queue = []
+            #queue = asyncio.Queue()
+
+            #if not self.stream_mode:
+            #        if self.settings.show_progress_bar:
+            #            producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
+            #        else:
+            #            producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
+            #else:
+            #    if self.settings.show_price_line:
+            #        self.printer.print_refresh(count, dt_string, self.old_prices, self.avg_prices)
+            #    producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
+
+            #await asyncio.gather(*producers)
+            #await queue.join()
 
             if not self.stream_mode:
                 if self.settings.show_progress_bar:
