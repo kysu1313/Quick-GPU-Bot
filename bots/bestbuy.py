@@ -15,6 +15,9 @@ from colorama import Fore, Style, init
 import os
 from requests.packages.urllib3.util.retry import Retry
 from requests.adapters import HTTPAdapter
+from concurrent.futures import ThreadPoolExecutor
+from selenium.common.exceptions import TimeoutException, WebDriverException
+#import multiprocessing as mp
 import requests
 #import resource
 from . import messenger as msg
@@ -27,6 +30,8 @@ from bots.browser import Browser
 from bots.printer import Printer 
 from bots.purchase import Purchase
 from bots.logger import Logger
+import sys
+import asyncio
 #from progress.bar import Spinner
 
 
@@ -58,7 +63,7 @@ class BestBuy():
 
         fhandler = logging.FileHandler(filename='.\\bestBuyLog.log', mode='a')
         self.logger = Logger(fhandler)
-        self.session = requests.Session()
+        #self.session = requests.Session()
         self.is_logged_in = False
         self.printer = Printer()
         self.debug = debug
@@ -77,36 +82,17 @@ class BestBuy():
         self.login_at_start = settings.login_at_start
         
         # Statistics
-        self.avg_prices = self.total_prices = self.card_count = self.old_prices = {
-            "3060" : 0,
-            "3060 Ti" : 0,
-            "3070" : 0,
-            "3080" : 0,
-            "3080 Ti" : 0,
-            "3090" : 0
-        }
+        self.avg_prices = self.total_prices = self.card_count = self.old_prices = {}
+        for key in self.cards_to_find:
+            self.avg_prices[key] = self.total_prices[key] = self.card_count[key] = self.old_prices[key] = 0
         
         # BestBuy settings
         self.bb_info = settings.bb_info
 
         self.number = number
         self.sku_id = ""
-
-        adapter = HTTPAdapter(
-            max_retries=Retry(
-                total=3,
-                backoff_factor=1,
-                status_forcelist=[429, 500, 502, 503, 504],
-                method_whitelist=["HEAD", "GET", "OPTIONS", "POST"],
-            )
-        )
-        self.session.mount("https://", adapter)
-        self.session.mount("http://", adapter)
-        self.session.get(self.url)
-
-        response = self.session.get(
-            BEST_BUY_PDP_URL.format(sku=self.sku_id), headers=DEFAULT_HEADERS
-        )
+        self.item_count = 0
+        self.total_time = 0
 
         # Browser driver
         self.browser = Browser(settings)
@@ -115,24 +101,33 @@ class BestBuy():
 
     def login(self):
         if self.bb_info["bb_auto_login"]:
-            if "Account" not in self.driver.find_element_by_class_name("account-button").text:
-                return
-            else:
-                self.driver.get("https://www.bestbuy.com/identity/global/signin")
-                if self.driver.find_element_by_xpath('//*[@id="fld-p1"]').get_attribute("value") != None:
-                    self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
+            try:
+                if self.settings.DEBUG_MODE and not self.debug["login_enabled"]:
+                    return
+                if "Account" not in self.driver.find_element_by_class_name("account-button").text:
+                    self.is_logged_in = True
+                    return
                 else:
-                    self.driver.find_element_by_xpath("//*[contains(text(), 'Sign')]").send_keys(
-                        self.settings.bb_info["bb_email"]
-                    )
-                    self.driver.find_element_by_xpath('//*[@id="fld-p1"]').send_keys(
-                        self.settings.bb_info["bb_password"]
-                    )
-                    self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
-            WebDriverWait(self.driver, 10).until(
-                lambda x: "Official Online Store" in self.driver.title
-            )
-            self.is_logged_in = True
+                    self.driver.get("https://www.bestbuy.com/identity/global/signin")
+                    WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, '//*[@id="fld-p1"]')))
+                    if self.driver.find_element_by_xpath('//*[@id="fld-p1"]').get_attribute("value") != None:
+                        self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
+                    else:
+                        self.driver.find_element_by_xpath("//*[contains(text(), 'Sign')]").send_keys(
+                            self.settings.bb_info["bb_email"]
+                        )
+                        self.driver.find_element_by_xpath('//*[@id="fld-p1"]').send_keys(
+                            self.settings.bb_info["bb_password"]
+                        )
+                        self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
+                WebDriverWait(self.driver, 6).until(
+                    lambda x: "Official Online Store" in self.driver.title
+                )
+                self.is_logged_in = True
+            except Exception as e:
+                if self.settings.save_logs:
+                    self.logger.log_info("Login Failure: {}".format(e))
+                pass
             self.driver.get(self.url)
 
     def get_chunks(self, desc):
@@ -182,7 +177,6 @@ class BestBuy():
         #    buy = Purchase(self.driver, item, 6426710, "bestbuy", self.is_logged_in, self.logger, self.settings)
         #    buy.make_purchase_bb()
         sku = link.split("=")[-1]
-
         if not is_in or "Sold Out" in description.split("\n"):
             in_stock = False
             self.printer.output(ctype, "OUT", "xxx", description, "", self.stream_mode, "BestBuy")
@@ -193,19 +187,16 @@ class BestBuy():
                 if self.cards_to_find[ctype] and self.card_prices[ctype] > true_price:
                     self.printer.output(ctype, "IN", true_price,
                             print_desc, link, self.stream_mode, "BestBuy")
-                    msg.send_message(self.number, "Card Found" + str(link))
-                    if self.bb_info["bb_auto_checkout"]:
+                    if self.settings.send_messages:
+                        msg.send_message(self.number, "Card Found:  " + str(link))
+                    if self.bb_info["bb_auto_buy"]:
                         buy = Purchase(self.driver, item, sku, "bestbuy", self.is_logged_in, self.logger, self.settings)
                         buy.make_purchase_bb()
             else:
                 self.printer.output(ctype, "EXP", true_price,
                         print_desc, link, self.stream_mode, "BestBuy")
-                
-                if self.bb_info["bb_auto_checkout"]:
-                    buy = Purchase(self.driver, item, sku, "bestbuy", self.is_logged_in, self.logger, self.settings)
-                    buy.make_purchase_bb()
 
-    def loop_body(self, item):
+    async def loop_body(self, item):
         try:
             description = item.text
             link_item = item.find_element_by_class_name("sku-header")
@@ -235,33 +226,60 @@ class BestBuy():
                     self.avg_prices[key] = self.total_prices[key] / self.card_count[key]
                     self.get_card(item, parts[0], key, true_price, is_in, link)
                     break
-            time.sleep(random.uniform(0, 1))
-        except Exception as e:
+
+        except NoSuchElementException as e:
             if self.settings.save_logs:
                 self.logger.log_info("Error in loop_body: {}".format(e))
             pass
+        except  Exception as e:
+            if self.settings.save_logs:
+                self.logger.log_error("Error in loop_body: {}".format(e))
+            pass
             
-    def validate_body(self, count, dt_string):
-        if "" in self.driver.title:
-            
-            notice = self.driver.find_elements_by_class_name(
-                "item-info")
-            total = self.driver.find_element_by_id("main-results")
-            stock = total.find_elements_by_class_name("sku-item")
+    async def validate_body(self, count, dt_string):
+        try:
+            if "" in self.driver.title:
+                notice = self.driver.find_elements_by_class_name(
+                    "item-info")
+                total = self.driver.find_element_by_id("main-results")
+                stock = total.find_elements_by_class_name("sku-item")
+                self.item_count = len(stock)
 
-            if not self.stream_mode:
-                if self.settings.show_progress_bar:
-                    for item in tqdm(stock):
-                        self.loop_body(item)
+                queue = []
+                queue = asyncio.Queue()
+
+                if not self.stream_mode:
+                        if self.settings.show_progress_bar:
+                            producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
+                        else:
+                            producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
                 else:
-                    for item in stock:
-                        self.loop_body(item)
-            else:
-                self.printer.print_refresh(count, dt_string, self.old_prices, self.avg_prices)
-                for item in stock:
-                    self.loop_body(item)
+                    if self.settings.show_price_line:
+                        self.printer.print_refresh(count, dt_string, self.old_prices, self.avg_prices)
+                    producers = [asyncio.create_task(self.loop_body(item)) for item in stock]
 
-            sleep_interval = 2+random.randrange(0, 1)
+                await asyncio.gather(*producers)
+                await queue.join()
+
+                #with ThreadPoolExecutor(max_workers=len(stock)) as executor:
+                #    if not self.stream_mode:
+                #        if self.settings.show_progress_bar:
+                #            {executor.submit(self.loop_body(item)): item for item in tqdm(stock)}
+                #        else:
+                #            {executor.submit(self.loop_body(item)): item for item in stock}
+                #    else:
+                #        self.printer.print_refresh(count, dt_string, self.old_prices, self.avg_prices)
+                #        {executor.submit(self.loop_body(item)): item for item in stock}
+
+                #sleep_interval = random.randrange(0, 1)
+        except NoSuchElementException as e:
+            if self.settings.save_logs:
+                self.logger.log_info("Error in loop_body: {}".format(e))
+            pass
+        except  Exception as e:
+            if self.settings.save_logs:
+                self.logger.log_error("Error in loop_body: {}".format(e))
+            pass
 
     def start(self):
         print("Started")
@@ -287,21 +305,41 @@ class BestBuy():
                         msg += 'Iterations: ' + str(count)
                         self.logger.log_info(msg)
 
-                    self.validate_body(count, dt_string)
+                    #self.validate_body(count, dt_string)
+                    asyncio.run(self.validate_body(count, dt_string))
+                    page_num = 1
+                    try:
+                        self.driver.find_element_by_class_name("sku-list-page-next").click()
+                        page_num += 1
+                        #self.validate_body(count, dt_string)
+                        asyncio.run(self.validate_body(count, dt_string))
+                    except (TimeoutException, WebDriverException) as e:
+                        self.driver.get(self.url)
+                        pass
                     
                     count += 1
                     t1 = time.time()
                     diff = t1 - t0
+                    self.total_time += diff
+                    time_per_card = diff / self.item_count
                     if self.settings.show_refresh_time:
-                        print("Refresh Time: ", diff, " sec.")
+                        print("BestBuy Refresh Time: ", diff, " sec. Avg card check time: ", time_per_card)
                     #else:
                         #spinner.next()
                     if count % 3 == 0 and diff < 3:
                         break
-                    self.driver.refresh()
+                    # Prevent browser from slowing down by restarting it
+                    if self.total_time >= 1200:
+                        self.driver.close()
+                        self.browser = Browser(self.settings)
+                        self.driver = self.browser.driver
+                        self.driver.get(self.url)
+                        self.start()
+                    else:
+                        self.driver.refresh()
                 except NoSuchElementException:
                     self.logger.log_error(
                         "Unable to find element. Refresh: " + str(count))
         except KeyboardInterrupt:
-            self.driver.quit()
-            pass
+            self.driver.close()
+            sys.exit()
