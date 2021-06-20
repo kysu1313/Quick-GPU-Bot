@@ -14,4 +14,4 @@ CLIENT = Client("Account SID", "Auth Token")
 - You can disable messaging in the settings file if you want.
 
 You need to install GeckoDriver from here: https://github.com/mozilla/geckodriver/releases  and add it to your PATH environment variables.
-Required Packages (PIP install): Twilio, Selenuim, Colorama, tqdm
+Required Packages (PIP install): Twilio, Selenuim, Colorama, tqdm, and more. Requirements.txt file is coming soon.
