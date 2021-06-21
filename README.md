@@ -15,6 +15,8 @@ SETUP:
 6. To Run: ```py app.py``` in the command line
 
 
+![Stock checking](bot-vid-3.gif)"Demo with console output:"
+
 SUPPORT:
 - Currently supports Firefox and Chrome browser drivers
 - ** Only supports BestBuy and Newegg ** However Amazon is in the works.
