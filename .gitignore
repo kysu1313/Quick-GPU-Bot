@@ -26,8 +26,12 @@ share/python-wheels/
 *.egg
 MANIFEST
 
+newtest/*
 .profile-bb
 __pycache__
+bots/__pycache__
+bots/__pycache__/*
+*.pyc
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -139,3 +143,4 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+*.pyc

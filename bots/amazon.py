@@ -12,7 +12,7 @@ from requests.packages.urllib3.util.retry import Retry
 from selenium.common.exceptions import TimeoutException
 from requests.adapters import HTTPAdapter
 import requests
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from time import sleep
 from tqdm import tqdm
 from bots.browser import Browser 
@@ -49,7 +49,7 @@ class Amazon():
 
     def __init__(self, number, url, settings):
 
-        load_dotenv()
+        #load_dotenv()
         init(convert=True)
         self.logger = logging.getLogger()
         fhandler = logging.FileHandler(filename='.\\amazonLog.log', mode='a')

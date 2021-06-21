@@ -9,6 +9,10 @@ class Settings:
         self,
         DEBUG_MODE,
         debug,
+        newegg_urls,
+        SELECTED_NEWEGG_URL,
+        bestbuy_urls,
+        SELECTED_BESTBUY_URL,
         use_firefox,
         use_firefox_profile,
         custom_firefox_exe_path,
@@ -45,6 +49,10 @@ class Settings:
         # Settings
         self.DEBUG_MODE = self.str2bool(DEBUG_MODE)
         self.debug = self.clean_card_dict(debug)
+        self.newegg_urls = newegg_urls
+        self.SELECTED_NEWEGG_URL = SELECTED_NEWEGG_URL
+        self.bestbuy_urls = bestbuy_urls
+        self.SELECTED_BESTBUY_URL = SELECTED_BESTBUY_URL
         self.use_firefox = self.str2bool(use_firefox)
         self.use_firefox_profile = self.str2bool(use_firefox_profile)
         self.custom_firefox_exe_path = custom_firefox_exe_path

@@ -1,10 +1,12 @@
 {
   // NOTE: Fields are case sensitive
 
+  // NOTE: Important fields are marked with: '😀'
+
   "settings": {
     // ========== DEBUG MODE ==============//
-    // Use this if you need to tweak anything to prevent accidental purchases,
-    // Learn from my mistakes...😆
+    // 😀 Use this is you need to tweak anything to prevent accidental purchases,
+    // Learn from my mistakes...
     "DEBUG_MODE": "False",
     "debug": {
       "login_enabled": "True",
@@ -19,18 +21,43 @@
       "send_messages": "True"
     },
 
+    // ========== URL's ============= //
+
+    // URL's for sites. You can add a custom url, just make sure to update the SELECTED name.
+    "newegg_urls": {
+      "NEWEGG_URL": "https://www.newegg.com/p/pl?d=rtx+30+series&PageSize=96",
+      "NEWEGG_TEST": "https://www.newegg.com/p/pl?d=gpu&N=50001441",
+      "NEWEGG_TEST_2": "https://www.newegg.com/p/pl?d=gpu&N=100007709&isdeptsrh=1"
+    },
+    // 😀 Name of Newegg url you want to use:
+    "SELECTED_NEWEGG_URL": "NEWEGG_URL",
+
+    "bestbuy_urls": {
+      "BESTBUY_ALL_URL": "https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&id=pcat17071&iht=y&keys=keys&ks=960&list=n&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203060%20Ti%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203070%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203090&sc=Global&st=rtx%20&type=page&usc=All%20Categories",
+      "BESTBUY_3060_URL": "https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&id=pcat17071&iht=y&keys=keys&ks=960&list=n&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203060%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203060%20Ti&sc=Global&st=rtx%20&type=page&usc=All%20Categories",
+      "BESTBUY_3080_URL": "https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&id=pcat17071&iht=y&keys=keys&ks=960&list=n&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080&sc=Global&st=rtx%20&type=page&usc=All%20Categories",
+      "BESTBUY_3090_URL": "https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&id=pcat17071&iht=y&keys=keys&ks=960&list=n&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203090&sc=Global&st=rtx%20&type=page&usc=All%20Categories",
+      "BB_IN_STOCK_TEST": "https://www.bestbuy.com/site/searchpage.jsp?_dyncharset=UTF-8&id=pcat17071&iht=y&keys=keys&ks=960&list=n&qp=gpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GT%201030%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GT%20710%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GTX%201060%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20GTX%201650%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203060%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203060%20Ti%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203070%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203070%20Ti%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203080%20Ti%5Egpusv_facet%3DGraphics%20Processing%20Unit%20(GPU)~NVIDIA%20GeForce%20RTX%203090&sc=Global&st=gpu&type=page&usc=All%20Categories",
+      "BB_TEST": "https://www.bestbuy.com/site/searchpage.jsp?st=gpu&_dyncharset=UTF-8&_dynSessConf=&id=pcat17071&type=page&sc=Global&cp=1&nrp=&sp=&qp=&list=n&af=true&iht=y&usc=All+Categories&ks=960&keys=keys",
+      "BB_AMD_TEST": "https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002&qp=chipsetmanufacture_facet%3DChipset%20Manufacture~AMD",
+      "BB_instock_test2": "https://www.bestbuy.com/site/computer-cards-components/video-graphics-cards/abcat0507002.c?id=abcat0507002"
+    },
+    // 😀 Name of Newegg url you want to use:
+    "SELECTED_BESTBUY_URL": "BESTBUY_ALL_URL",
+
     // ========== BROWSER CONTROL ============= //
 
     // Browser selection and path (if requied)
     "use_firefox": "False",
     "use_firefox_profile": "True",
-    // Replace '<your-username-here>' with your username
+    // 😀 Replace '<your-username-here>' with your username
     "custom_firefox_exe_path": "C:\\Users\\<your-username-here>\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\al32vdl0.default-release",
     // If you want to use your browser profile, add the folder path here, otherwise leave it empty
     "use_chrome": "True",
     "use_chrome_profile": "False",
     // Replace '<your-username-here>' with your username
     "chrome_profile_path": "C:\\Users\\<your-username-here>\\AppData\\Local\\Google\\Chrome\\User Data\\",
+    // 😀 Add driver path
     "custom_chrome_exe_path": "<your-chrome-driver-path-here>",
     // Loading images is slow
     "load_images": "False",
@@ -70,7 +97,7 @@
 
     // The keys in 'cards_to_find' and 'card_prices' must be the same.
     // So if you add something to the list to find, you must also add it to the price list.
-    // Item(s) to search for
+    // 😀 Item(s) to search for
     "cards_to_find": {
       "3060 Ti": "True",
       "3080 Ti": "True",
@@ -82,7 +109,7 @@
       //"RX 560": "True"
     },
 
-    // Highest price you want to pay for items
+    // 😀 Highest price you want to pay for items
     "card_prices": {
       "3060 Ti": 750,
       "3080 Ti": 1600,
@@ -104,7 +131,7 @@
     // It's recommended to have your info pre-filled in your account and login at checkout
     "checkout_as_guest": "False",
 
-    // BestBuy login / buy info
+    // 😀 BestBuy login / buy info
     "bb_info": {
       "bb_auto_login": "True",
       "bb_auto_buy": "False",
@@ -113,7 +140,7 @@
       "bb_password": "yourInfoHere"
     },
 
-    // Newegg login / buy info
+    // 😀 Newegg login / buy info
     "ne_info": {
       "ne_auto_login": "True",
       "ne_auto_buy": "False",
@@ -131,7 +158,7 @@
       "az_password": "yourInfoHere"
     },
 
-    // Shipping info for use on all sites
+    // 😀 Shipping info for use on all sites
     // Required for 'auto_buy'
     "shipping_info": {
       "first_name": "",
@@ -144,7 +171,7 @@
       "phone_number": ""
     },
 
-    // Credit Card info
+    // 😀 Credit Card info
     // Only needed if auto-buy is enabled
     "payment_info": {
       "card_number": "555555555",
