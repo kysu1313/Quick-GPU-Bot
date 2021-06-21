@@ -1,4 +1,4 @@
-# Simple GPU Bot
+# Simple Quick GPU Bot
 Definitely not my custom made web scraper bot for buying an RTX 3080. Nope definitely not that. 
 
 SETUP:
