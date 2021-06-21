@@ -1,4 +1,4 @@
-# 3080Plx
+# Simple GPU Bot
 Definitely not my custom made web scraper bot for buying an RTX 3080. Nope definitely not that. 
 
 SETUP:
@@ -14,5 +14,15 @@ SETUP:
     You can disable messaging in the settings file if you want.
 6. To Run: ```py app.py``` in the command line
 
+
+SUPPORT:
+- Currently supports Firefox and Chrome browser drivers
+- ** Only supports BestBuy and Newegg ** However Amazon is in the works.
+
+NOTES:
+- If you run the bot using headless mode, when the 2-factor auth is required from newegg on startup, a small tkinter textbox will popup. Just enter your 2FA code there and the program will continue. 
+- 'DEBUG_MODE' must be set to 'True' for any of the debug settings to take effect.
+- You can add custom url's to the 'URLs' section in the settings.json file
+- If you are getting "selenium.common.exceptions.WebDriverException: Message: '<your-chrome-driver-path-here>' executable needs to be in PATH." You just need to add the chrome driver path to the settings.json file field named "custom_chrome_exe_path"
 
 
