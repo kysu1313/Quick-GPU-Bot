@@ -6,8 +6,8 @@ __QUICK SETUP__:
     Download ChromeDriver from (https://chromedriver.chromium.org/downloads) and add the .exe path to the "custom_chrome_exe_path" in settings.json
 2. If using FireFox:
     Download GeckoDriver from here: (https://github.com/mozilla/geckodriver/releases)  and add it to your PATH environment variables.
-3. Add your site log-in information to the 'settings.json' file.
-  * _NOTE: The only required login info is Newegg. But if you want the bot to auto purchase, you need to add all your info._
+3. Add your preferences, shipping, payment and site log-in information to the 'settings.json' file.
+  *Note: The important setting fields are denoted by a smily face emoji.
 5. Install requirements from requirements.txt with ```pip install -r requirements.txt```
 6. If you want to use this bot and have it text you when it gets a hit. You will need to make a developer account on Twilio (https://www.twilio.com/docs/iam/keys/api-key) and add your private keys to the mssage.py class.
   Like this:
@@ -20,7 +20,7 @@ __QUICK SETUP__:
 
 SUPPORT:
 - Currently supports Firefox and Chrome browser drivers
-- ** Only supports BestBuy and Newegg ** However Amazon is in the works.
+- ** Only supports BestBuy and Newegg ** However B&H Photo and Amazon are in the works.
 
 NOTES:
 - If you run the bot using headless mode, when the 2-factor auth is required from newegg on startup, a small tkinter textbox will popup. Just submit your 2FA code there and the program will continue. 
