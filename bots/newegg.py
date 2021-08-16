@@ -198,6 +198,9 @@ class NewEgg():
             try:
                 number = None
 
+                if self.settings.ne_info["az_username"] or self.settings.ne_info["az_password"] == "yourInfoHere":
+                    self.printer.print_message(Fore.YELLOW, "UPDATE SETTINGS.JSON FILE")
+
                 # Show popup for 2FA code if running headless
                 if self.settings.headless_mode or self.DEBUG_MODE:
                     popup = TextEntry()
