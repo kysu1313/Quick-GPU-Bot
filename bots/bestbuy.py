@@ -100,6 +100,9 @@ class BestBuy():
         self.driver.get(url)
 
     def login(self):
+        """
+        Log-in if not already.
+        """
         if self.bb_info["bb_auto_login"]:
             try:
                 if self.settings.DEBUG_MODE and not self.debug["login_enabled"]:
@@ -131,10 +134,20 @@ class BestBuy():
             self.driver.get(self.url)
 
     def get_chunks(self, desc):
+        """
+        Split the GPU description into easily parseable chunks.
+
+        Properties:
+            - desc: description string
+        """
         new_desc = desc.split("\n")[0]
         return new_desc
 
     def check_country_page(self):
+        """
+        If you appear to be from a country outside the United States,
+        then the country popup will appear.
+        """
         try:
             if "Select your Country" in self.driver.title:
                 self.driver.find_element_by_xpath(
@@ -144,6 +157,12 @@ class BestBuy():
             print("no block")
 
     def check_popup(self, driver):
+        """
+        Check for a survey popup and exit out.
+
+        Properties:
+            - driver: webdriver
+        """
         try:
             if self.driver.find_element_by_id("survey_invite_no"):
                 self.driver.find_element_by_id("survey_invite_no").click()
@@ -152,10 +171,19 @@ class BestBuy():
 
     # Pass xpath of popup close button
     def close_popup(self, driver, path):
+        """
+        Close arbitrary popup window.
 
+        Properties:
+            - driver: webdriver
+            - path: string
+        """
         self.driver.find_element_by_xpath(path).click()
 
     def close_feedback_popup(self):
+        """
+        Close feedback popup window.
+        """
         # Take the Survey
         try:
             if self.driver.find_element_by_id("survey_invite_no"):
@@ -165,6 +193,9 @@ class BestBuy():
 
 
     def close_deals_popup(self):
+        """
+        Close deals popup window.
+        """
         try:
             if self.driver.find_element_by_xpath("//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button"):
                 self.driver.find_element_by_xpath(
@@ -173,9 +204,17 @@ class BestBuy():
             print("no popup")
 
     def get_card(self, item, description, ctype, true_price, is_in, link):
-        #if self.debug:
-        #    buy = Purchase(self.driver, item, 6426710, "bestbuy", self.is_logged_in, self.logger, self.settings)
-        #    buy.make_purchase_bb()
+        """
+        Get individual card object from page body.
+
+        Properties:
+            - item: card item
+            - description: card description
+            - ctype: card type / model
+            - true_price: price of the card
+            - is_in: whether card is in stock or not
+            - link: the url of the card
+        """
         sku = link.split("=")[-1]
         if not is_in or "Sold Out" in description.split("\n"):
             in_stock = False
@@ -197,6 +236,12 @@ class BestBuy():
                         print_desc, link, self.stream_mode, "BestBuy")
 
     async def loop_body(self, item):
+        """
+        Loops over the card container to extract individual cards.
+
+        Properties:
+            - item: card item
+        """
         try:
             description = item.text
             link_item = item.find_element_by_class_name("sku-header")
@@ -237,6 +282,13 @@ class BestBuy():
             pass
             
     async def validate_body(self, count, dt_string):
+        """
+        Make sure there are actually cards in the body of the page.
+
+        Properties:
+            - count: current iteration count
+            - dt_string: current time string
+        """
         try:
             if "" in self.driver.title:
                 notice = self.driver.find_elements_by_class_name(
@@ -244,8 +296,6 @@ class BestBuy():
                 total = self.driver.find_element_by_id("main-results")
                 stock = total.find_elements_by_class_name("sku-item")
                 self.item_count = len(stock)
-
-                queue = []
                 queue = asyncio.Queue()
 
                 if not self.stream_mode:
@@ -261,17 +311,6 @@ class BestBuy():
                 await asyncio.gather(*producers)
                 await queue.join()
 
-                #with ThreadPoolExecutor(max_workers=len(stock)) as executor:
-                #    if not self.stream_mode:
-                #        if self.settings.show_progress_bar:
-                #            {executor.submit(self.loop_body(item)): item for item in tqdm(stock)}
-                #        else:
-                #            {executor.submit(self.loop_body(item)): item for item in stock}
-                #    else:
-                #        self.printer.print_refresh(count, dt_string, self.old_prices, self.avg_prices)
-                #        {executor.submit(self.loop_body(item)): item for item in stock}
-
-                #sleep_interval = random.randrange(0, 1)
         except NoSuchElementException as e:
             if self.settings.save_logs:
                 self.logger.log_info("Error in loop_body: {}".format(e))

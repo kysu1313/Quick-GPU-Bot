@@ -109,13 +109,21 @@ class NewEgg():
         self.driver.get(url)
 
     def close_popup(self, path):
-        """ Close popup window """
+        """
+        Close popup window.
+        """
         self.driver.find_element_by_xpath(path).click()
 
     def get_timeout(self, timeout=MAX_TIMEOUT):
+        """
+        Get max page timeout.
+        """
         return time.time() + timeout
 
     def login(self):
+        """
+        Log-in if not already.
+        """
         timeout = self.get_timeout()
         if not self.login_method_has_run:
             self.login_method_has_run = True
@@ -159,6 +167,9 @@ class NewEgg():
                     break
 
     def captcha_try(self):
+        """
+        Attempt to pass CAPTCHA challenge.
+        """
         while True:
             try:
 
@@ -175,6 +186,13 @@ class NewEgg():
                 break
 
     def enter_2fa(self, screen=None):
+        """
+        Resolve 2FA code.
+        If running headless mode, a textbox will popup which you enter the code.
+
+        Properties:
+            - screen: (optional) tkinter popup text box
+        """
         self.printer.print_message(Fore.CYAN, "\n -------- PLEASE ENTER Newegg 2FA Code!!! -------- \n")
         while True:
             try:
@@ -225,6 +243,18 @@ class NewEgg():
         return pts[0]
 
     def get_card(self, item, description, ctype, is_in, link, display_desc, true_price):
+        """
+        Get individual card object from page body.
+
+        Properties:
+            - item: card item
+            - description: card description
+            - ctype: card type / model
+            - is_in: whether card is in stock or not
+            - link: the url of the card
+            - display_desc: the card description to display
+            - true_price: price of the card
+        """
         """ Sift through a list item and extrace card data. """
         try:
             # Get sold out tag if it exists
@@ -281,6 +311,9 @@ class NewEgg():
             pass
 
     def select_dropdown(self):
+        """
+        Select the maximum number of cards that can be displayed.
+        """
         timeout = self.get_timeout()
         while True:
             try:
@@ -299,6 +332,12 @@ class NewEgg():
                 break
 
     async def loop_body(self, item):
+        """
+        Loops over the card container to extract individual cards.
+
+        Properties:
+            - item: card item
+        """
         try:
 
             if item.text == '':
@@ -348,6 +387,13 @@ class NewEgg():
 
 
     async def validate_body(self, count, dt_string):
+        """
+        Make sure there are actually cards in the body of the page.
+
+        Properties:
+            - count: current iteration count
+            - dt_string: current time string
+        """
         try:
             if "" in self.driver.title:
                 notice = self.driver.find_elements_by_class_name(

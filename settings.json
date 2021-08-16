@@ -49,7 +49,7 @@
 
     // Browser selection and path (if requied)
     "use_firefox": "False",
-    "use_firefox_profile": "True",
+    "use_firefox_profile": "False",
     // 😀 Replace '<your-username-here>' with your username
     "custom_firefox_exe_path": "C:\\Users\\<your-username-here>\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\al32vdl0.default-release",
     // If you want to use your browser profile, add the folder path here, otherwise leave it empty
@@ -58,7 +58,7 @@
     // Replace '<your-username-here>' with your username
     "chrome_profile_path": "C:\\Users\\<your-username-here>\\AppData\\Local\\Google\\Chrome\\User Data\\",
     // 😀 Add driver path
-    "custom_chrome_exe_path": "<your-chrome-driver-path-here>",
+    "custom_chrome_exe_path": "D:\\ChromeDriver\\chromedriver.exe",
     // Loading images is slow
     "load_images": "False",
 
