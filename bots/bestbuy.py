@@ -1,57 +1,41 @@
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException, WebDriverException
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.keys import Keys
-import time
-import random
-import re
-from colorama import Fore, Style, init
-import os
-from requests.packages.urllib3.util.retry import Retry
-from requests.adapters import HTTPAdapter
-from concurrent.futures import ThreadPoolExecutor
-from selenium.common.exceptions import TimeoutException, WebDriverException
-#import multiprocessing as mp
-import requests
-#import resource
-from . import messenger as msg
-from datetime import date, datetime
-from time import sleep
-from tqdm import tqdm
-import logging
-#from dotenv import load_dotenv
+from selenium.webdriver.common.by import By
+from bots.purchase import Purchase
+from botutils.paths import Paths
 from bots.browser import Browser 
 from bots.printer import Printer 
-from bots.purchase import Purchase
 from bots.logger import Logger
-import sys
+from . import messenger as msg
+from datetime import datetime
+from colorama import init
+import logging
 import asyncio
-#from progress.bar import Spinner
+import time
+import sys
+import re
 
 
 
-BEST_BUY_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
-BEST_BUY_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
+#BEST_BUY_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
+#BEST_BUY_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
 
-BEST_BUY_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
-BEST_BUY_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
+#BEST_BUY_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
+#BEST_BUY_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
 
-BEST_BUY_ADD_TO_CART_API_URL = "https://www.bestbuy.com/cart/api/v1/addToCart"
-BEST_BUY_CHECKOUT_URL = "https://www.bestbuy.com/checkout/c/orders/{order_id}/"
+#BEST_BUY_ADD_TO_CART_API_URL = "https://www.bestbuy.com/cart/api/v1/addToCart"
+#BEST_BUY_CHECKOUT_URL = "https://www.bestbuy.com/checkout/c/orders/{order_id}/"
 
-DEFAULT_HEADERS = {
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    "accept-encoding": "gzip, deflate, br",
-    "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-    "origin": "https://www.bestbuy.com",
-}
+#DEFAULT_HEADERS = {
+#    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+#    "accept-encoding": "gzip, deflate, br",
+#    "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
+#    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
+#    "origin": "https://www.bestbuy.com",
+#}
 
 
 class BestBuy():
@@ -63,6 +47,8 @@ class BestBuy():
 
         fhandler = logging.FileHandler(filename='.\\bestBuyLog.log', mode='a')
         self.logger = Logger(fhandler)
+
+        self.paths = Paths()
         #self.session = requests.Session()
         self.is_logged_in = False
         self.printer = Printer()
@@ -111,18 +97,18 @@ class BestBuy():
                     self.is_logged_in = True
                     return
                 else:
-                    self.driver.get("https://www.bestbuy.com/identity/global/signin")
-                    WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, '//*[@id="fld-p1"]')))
-                    if self.driver.find_element_by_xpath('//*[@id="fld-p1"]').get_attribute("value") != None:
-                        self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
+                    self.driver.get(self.paths.signin)
+                    WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, self.paths.pw_field)))
+                    if self.driver.find_element_by_xpath(self.paths.pw_field).get_attribute("value") != None:
+                        self.driver.find_element_by_xpath(self.paths.submit_login).click()
                     else:
                         self.driver.find_element_by_xpath("//*[contains(text(), 'Sign')]").send_keys(
                             self.settings.bb_info["bb_email"]
                         )
-                        self.driver.find_element_by_xpath('//*[@id="fld-p1"]').send_keys(
+                        self.driver.find_element_by_xpath(self.paths.pw_field).send_keys(
                             self.settings.bb_info["bb_password"]
                         )
-                        self.driver.find_element_by_xpath("/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button").click()
+                        self.driver.find_element_by_xpath(self.paths.submit_login).click()
                 WebDriverWait(self.driver, 6).until(
                     lambda x: "Official Online Store" in self.driver.title
                 )
@@ -151,7 +137,7 @@ class BestBuy():
         try:
             if "Select your Country" in self.driver.title:
                 self.driver.find_element_by_xpath(
-                    '/html/body/div[2]/div/div/div/div[1]/div[2]/a[2]').click()
+                    self.paths.select_country).click()
                 # driver.find_element_by_class_name("us-link").click()
         except NoSuchElementException:
             print("no block")
@@ -197,9 +183,9 @@ class BestBuy():
         Close deals popup window.
         """
         try:
-            if self.driver.find_element_by_xpath("//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button"):
+            if self.driver.find_element_by_xpath(self.paths.close_deals_popup):
                 self.driver.find_element_by_xpath(
-                    "//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button").click()
+                    self.paths.close_deals_popup).click()
         except NoSuchElementException:
             print("no popup")
 
@@ -274,11 +260,11 @@ class BestBuy():
 
         except NoSuchElementException as e:
             if self.settings.save_logs:
-                self.logger.log_info("Error in loop_body: {}".format(e))
+                self.logger.log_info(self.paths.error_loop.format(e))
             pass
         except  Exception as e:
             if self.settings.save_logs:
-                self.logger.log_error("Error in loop_body: {}".format(e))
+                self.logger.log_error(self.paths.error_loop.format(e))
             pass
             
     async def validate_body(self, count, dt_string):
@@ -313,11 +299,11 @@ class BestBuy():
 
         except NoSuchElementException as e:
             if self.settings.save_logs:
-                self.logger.log_info("Error in loop_body: {}".format(e))
+                self.logger.log_info(self.paths.error_loop.format(e))
             pass
         except  Exception as e:
             if self.settings.save_logs:
-                self.logger.log_error("Error in loop_body: {}".format(e))
+                self.logger.log_error(self.paths.error_loop.format(e))
             pass
 
     def start(self):

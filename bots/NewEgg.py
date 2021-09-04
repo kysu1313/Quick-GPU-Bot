@@ -1,16 +1,10 @@
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.wait import WebDriverWait
-from concurrent.futures.thread import ThreadPoolExecutor
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
-from asciimatics.screen import ManagedScreen
 from selenium.webdriver.common.by import By
-from contextvars import ContextVar, Context
-from requests.adapters import HTTPAdapter
 from colorama import Fore, Style, init
+from bots.botutils.paths import Paths
 from bots.textbox import TextEntry
 from bots.purchase import Purchase 
 from bots import messenger as msg
@@ -37,18 +31,6 @@ import os
 import re
 import sys
 
-#NEWEGG_PDP_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/pdp"
-#NEWEGG_CART_URL = "https://api.bestbuy.com/click/5592e2b895800000/{sku}/cart"
-#NEWEGG_ADD_TO_CART = "https://secure.newegg.com/Shopping/AddToCart.aspx?Submit=ADD&ItemList={sku}"
-
-#DEFAULT_HEADERS = {
-#    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-#    "accept-encoding": "gzip, deflate, br",
-#    "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7",
-#    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36",
-#    "origin": "https://www.newegg.com",
-#}
-
 MAX_TIMEOUT = 10
 
 class NewEgg():
@@ -59,6 +41,7 @@ class NewEgg():
         init(convert=True)
         fhandler = logging.FileHandler(filename='.\\neweggLog.log', mode='a')
         self.logger = Logger(fhandler)
+        self.paths = Paths()
         #self.session = requests.Session()
         self.is_logged_in = False
         self.login_method_has_run = False
@@ -131,12 +114,12 @@ class NewEgg():
                 try:
                     if self.DEBUG_MODE and not self.debug["login_enabled"]:
                         return
-                    if self.driver.find_element_by_class_name('nav-complex-title').text == "Sign in / Register":
-                        self.driver.find_element_by_xpath("//*[contains(text(), 'Sign in / Register')]").click()
+                    if self.driver.find_element_by_class_name(self.paths.nav_title).text == "Sign in / Register":
+                        self.driver.find_element_by_xpath(self.paths.signin_button).click()
                         WebDriverWait(self.driver, 10).until(
                             EC.presence_of_element_located((By.CLASS_NAME, "signin-title"))
                         )
-                        self.driver.find_element_by_id("labeled-input-signEmail").send_keys(self.settings.ne_info['ne_email'])
+                        self.driver.find_element_by_id(self.paths.sign_email).send_keys(self.settings.ne_info['ne_email'])
                         self.driver.find_element_by_id("signInSubmit").click()
 
                         time.sleep(2)
@@ -145,13 +128,13 @@ class NewEgg():
                             self.enter_2fa()
                         
 
-                        self.browser.driver_wait(By.ID, "labeled-input-password")
-                        self.driver.find_element_by_id("labeled-input-password").send_keys(self.settings.ne_info['ne_password'])
+                        self.browser.driver_wait(By.ID, self.paths.input_pw)
+                        self.driver.find_element_by_id(self.paths.input_pw).send_keys(self.settings.ne_info['ne_password'])
                         self.driver.find_element_by_id("signInSubmit").click()
                 
                 except NoSuchElementException as e:
                     try:
-                        if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                        if self.driver.find_element_by_xpath(self.paths.human):
                             self.captcha_try()
                     except NoSuchElementException:
                         pass
@@ -173,8 +156,8 @@ class NewEgg():
         while True:
             try:
 
-                if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
-                    element = self.driver.find_element_by_xpath("/html/body/div[1]/div[2]/p[5]/a")
+                if self.driver.find_element_by_xpath(self.paths.human):
+                    element = self.driver.find_element_by_xpath(self.paths.captcha)
                     # //*[@id="playAudio"]
                     ai = FakeAI(self.driver)
                     ai.move_cursor(element)
@@ -210,11 +193,11 @@ class NewEgg():
                 val = ""
 
                 if number != '' and number != None:
-                    element = self.driver.find_element_by_xpath("""//*[@id="app"]/div/div[2]/div[2]/div/div/div[3]/form/div/div[3]/div/input[1]""").send_keys(number)
+                    element = self.driver.find_element_by_xpath(self.paths.two_factor).send_keys(number)
 
                 try:
                     txt_area = self.driver.find_element_by_class_name("form-v-code")
-                    val = txt_area.find_element_by_xpath("""//*[@id="app"]/div/div[2]/div[2]/div/div/div[3]/form/div/div[3]/div/input[6]""").get_attribute("value")
+                    val = txt_area.find_element_by_xpath(self.paths.tfa_value).get_attribute("value")
                 except Exception as e:
                     if self.settings.save_logs:
                         self.logger.log_info("2FA text area not accessible, {}".format(e))
@@ -226,11 +209,11 @@ class NewEgg():
                 try:
                     self.driver.find_element_by_class_name("signin-title")
                 except NoSuchElementException:
-                    if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                    if self.driver.find_element_by_xpath(self.paths.human):
                         self.captcha_try()
                     break
             except NoSuchElementException:
-                    if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                    if self.driver.find_element_by_xpath(self.paths.human):
                         self.captcha_try()
                     break
             except Exception as e:
@@ -303,7 +286,7 @@ class NewEgg():
     
         except NoSuchElementException:
             try:
-                if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                if self.driver.find_element_by_xpath(self.paths.human):
                     self.captcha_try()
             except NoSuchElementException:
                 pass
@@ -322,7 +305,7 @@ class NewEgg():
             try:
                 drop = self.driver.find_elements_by_class_name("form-select")
                 drop[1].find_element(
-                    By.XPATH, "//*[@value='96']/option[text()='96']").click
+                    By.XPATH, self.paths.ne_dropdown).click
                 break
             except NoSuchElementException:
                 pass
@@ -378,14 +361,14 @@ class NewEgg():
                     break
         except NoSuchElementException:
             try:
-                if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                if self.driver.find_element_by_xpath(self.paths.human):
                     self.captcha_try()
             except NoSuchElementException:
                 pass
             pass
         except Exception as e:
             if self.settings.save_logs:
-                self.logger.log_info("Error in loop_body: {}".format(e))
+                self.logger.log_info(self.paths.error_loop.format(e))
             pass
 
 
@@ -422,20 +405,20 @@ class NewEgg():
             await queue.join()
 
             sleep_interval = random.randrange(0, 2)
-            if self.driver.find_element_by_class_name("popup-close") != None:
+            if self.driver.find_element_by_class_name(self.paths.close_popup) != None:
                 self.driver.find_element_by_class_name(
-                    "popup-close").click()
+                    self.paths.close_popup).click()
         
         except NoSuchElementException:
             try:
-                if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                if self.driver.find_element_by_xpath(self.paths.human):
                     self.captcha_try()
             except NoSuchElementException:
                 pass
             pass
         except Exception as e:
             if self.settings.save_logs:
-                self.logger.log_info("Error in loop_body: {}".format(e))
+                self.logger.log_info(self.paths.error_loop.format(e))
             pass
 
     def start(self):
@@ -487,14 +470,14 @@ class NewEgg():
                 self.driver.refresh()
         except NoSuchElementException:
             try:
-                if self.driver.find_element_by_xpath("""//*[contains(text(), 'Are you a human?')]"""):
+                if self.driver.find_element_by_xpath(self.paths.human):
                     self.captcha_try()
             except NoSuchElementException:
                 pass
             pass
         except Exception as e:
             if self.settings.save_logs:
-                self.logger.log_info("Error in loop_body: {}".format(e))
+                self.logger.log_info(self.paths.error_loop.format(e))
             pass
         except KeyboardInterrupt:
             self.driver.close()
