@@ -1,6 +1,11 @@
 # Simple Quick GPU Bot
 Definitely not my custom made web scraper bot for buying an RTX 3080. Nope definitely not that. 
 
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/kysu1313/Quick-GPU-Bot/LICENSEs)
+[![Github All Releases](https://img.shields.io/github/downloads/kysu1313/Quick-GPU-Bot/total.svg?style=flat)]()  
+[![Issues](https://img.shields.io/github/issues-raw/kysu1313/Quick-GPU-Bot)](https://github.com/kysu1313/Quick-GPU-Bot/issues)  
+
+
 __QUICK SETUP__:
 1. If using Chrome (_Recommended_):
     Download ChromeDriver from (https://chromedriver.chromium.org/downloads) and add the .exe path to the "custom_chrome_exe_path" in settings.json
