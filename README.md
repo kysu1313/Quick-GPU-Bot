@@ -1,10 +1,7 @@
 # Simple Quick GPU Bot
 Definitely not my custom made web scraper bot for buying an RTX 3080. Nope definitely not that. 
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/kysu1313/Quick-GPU-Bot/LICENSEs)
-[![Github All Releases](https://img.shields.io/github/downloads/kysu1313/Quick-GPU-Bot/total.svg?style=flat)]()  
-[![Issues](https://img.shields.io/github/issues-raw/kysu1313/Quick-GPU-Bot)](https://github.com/kysu1313/Quick-GPU-Bot/issues)  
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)  
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/kysu1313/Quick-GPU-Bot/LICENSEs)[![Github All Releases](https://img.shields.io/github/downloads/kysu1313/Quick-GPU-Bot/total.svg?style=flat)]()  [![Issues](https://img.shields.io/github/issues-raw/kysu1313/Quick-GPU-Bot)](https://github.com/kysu1313/Quick-GPU-Bot/issues)  [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome)  
 
 
 __QUICK SETUP__:
