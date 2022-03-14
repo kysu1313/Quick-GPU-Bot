@@ -21,6 +21,11 @@
       "send_messages": "True"
     },
 
+    // ========== GENERAL SETTINGS ==============//
+    // You can run newegg and bestbuy at the same time.
+    "run_bestbuy": "True",
+    "run_newegg": "True",
+
     // ========== URL's ============= //
 
     // URL's for sites. You can add a custom url, just make sure to update the SELECTED name.

@@ -25,8 +25,8 @@ class Paths():
             "origin": "https://www.bestbuy.com",
         }
         self.signin  = "https://www.bestbuy.com/identity/global/signin"
-        self.submit_login = "/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/form/div[4]/button"
-        self.pw_field = '//*[@id="fld-p1"]'
+        self.submit_login = "/html/body/div[1]/div/section/main/div[2]/div[1]/div/div/div/div/div/form/div[4]/button"
+        self.pw_field = '//*[@id="fld-p1"]' 
         self.select_country = '/html/body/div[2]/div/div/div/div[1]/div[2]/a[2]'
         self.close_deals_popup = "//*[@id=\"widgets-view-email-modal-mount\"]/div/div/div[1]/div/div/div/div/button"
 

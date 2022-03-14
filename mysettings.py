@@ -9,6 +9,8 @@ class Settings:
         self,
         DEBUG_MODE,
         debug,
+        run_bestbuy,
+        run_newegg,
         newegg_urls,
         SELECTED_NEWEGG_URL,
         bestbuy_urls,
@@ -49,6 +51,8 @@ class Settings:
         # Settings
         self.DEBUG_MODE = self.str2bool(DEBUG_MODE)
         self.debug = self.clean_card_dict(debug)
+        self.run_bestbuy = self.str2bool(run_bestbuy)
+        self.run_newegg = self.str2bool(run_newegg)
         self.newegg_urls = newegg_urls
         self.SELECTED_NEWEGG_URL = SELECTED_NEWEGG_URL
         self.bestbuy_urls = bestbuy_urls

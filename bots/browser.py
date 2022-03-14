@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
 class Browser():
     def __init__(self, settings):
@@ -37,17 +38,23 @@ class Browser():
             options.page_load_strategy = "eager"
             options.add_experimental_option("excludeSwitches", ["enable-automation"])
             options.add_experimental_option("useAutomationExtension", False)
+            #options.add_argument('--no-proxy-server')
+            #options.add_argument("--proxy-server='direct://'")
+            #options.add_argument("--proxy-bypass-list=*")
+            #options.add_argument('--blink-settings=imagesEnabled=false')
             #options.add_argument("--no-sandbox");
             if not self.load_images:
                 prefs = {"profile.managed_default_content_settings.images": 2}
                 options.add_experimental_option("prefs", prefs)
             if self.headless_mode:
                 options.add_argument('--headless')
+                options.add_argument('--no-proxy-server')
             if self.settings.use_chrome_profile:
                 options.add_argument("--user-data-dir={}".format(self.settings.chrome_profile_path)) # .profile-bb
                 options.add_argument('--profile-directory=Default')
             if self.settings.custom_chrome_exe_path != "" or None:
-                driver = webdriver.Chrome(self.settings.custom_chrome_exe_path, options=options)
+                #driver = webdriver.Chrome(self.settings.custom_chrome_exe_path, options=options)
+                driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
             else:
                 driver = webdriver.Chrome(options=options)
         else:

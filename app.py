@@ -102,6 +102,12 @@ if __name__ == "__main__":
         print("\n<=============== INITIALIZING ===============>")
 
         settings = parse_settings()
+        if (settings.run_bestbuy and settings.run_newegg):
+            run_all(number, settings)
+        elif settings.run_newegg:
+            newegg_run(number, settings.newegg_urls[settings.SELECTED_NEWEGG_URL], settings, True)
+        elif settings.run_bestbuy:
+            bestbuy_run(number, settings.bestbuy_urls[settings.SELECTED_BESTBUY_URL], settings)
 
         #bestbuy_run(number, settings.bestbuy_url[settings.SELECTED_BESTBUY_URL], settings)
         #newegg_run(number, settings.newegg_urls[settings.SELECTED_NEWEGG_URL], settings, True)

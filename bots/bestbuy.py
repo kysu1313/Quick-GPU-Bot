@@ -5,12 +5,13 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from bots.purchase import Purchase
-from botutils.paths import Paths
+#from botutils.paths import Paths
 from bots.browser import Browser 
 from bots.printer import Printer 
 from bots.logger import Logger
 from . import messenger as msg
 from datetime import datetime
+from .botutils.paths import Paths
 from colorama import init
 import logging
 import asyncio
@@ -99,10 +100,10 @@ class BestBuy():
                 else:
                     self.driver.get(self.paths.signin)
                     WebDriverWait(self.driver, 2).until(EC.presence_of_element_located((By.XPATH, self.paths.pw_field)))
-                    if self.driver.find_element_by_xpath(self.paths.pw_field).get_attribute("value") != None:
+                    if self.driver.find_element_by_xpath(self.paths.pw_field).get_attribute("value") != None and self.driver.find_element_by_xpath(self.paths.pw_field).get_attribute("value") != '':
                         self.driver.find_element_by_xpath(self.paths.submit_login).click()
                     else:
-                        self.driver.find_element_by_xpath("//*[contains(text(), 'Sign')]").send_keys(
+                        self.driver.find_element_by_xpath('//*[@id="fld-e"]').send_keys(
                             self.settings.bb_info["bb_email"]
                         )
                         self.driver.find_element_by_xpath(self.paths.pw_field).send_keys(
