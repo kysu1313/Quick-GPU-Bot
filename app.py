@@ -96,7 +96,7 @@ def parse_settings():
 
 if __name__ == "__main__":
     # Your number here
-    number = "3362091264"
+    number = "9999999999"
     try:
 
         print("\n<=============== INITIALIZING ===============>")
